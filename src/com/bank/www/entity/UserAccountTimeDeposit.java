@@ -5,9 +5,9 @@ import java.security.Timestamp;
 public class UserAccountTimeDeposit {
 
 	private Integer id;
-	private Integer userId;// 用户ID
-	private Timestamp begin;// 定期开始时间
-	private Long amount;// 定期金额
+	private Integer userId;
+	private Timestamp begin;
+	private Long amount;
 
 	public UserAccountTimeDeposit() {
 		super();

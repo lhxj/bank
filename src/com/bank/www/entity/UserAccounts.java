@@ -3,11 +3,21 @@ package com.bank.www.entity;
 public class UserAccounts {
 	private Integer id;
 	private String userName;
-	private Integer state;// 用户帐户状态
-	private Long accountAmout;// 活期帐户金额
+	private String no;
+	private Integer state;
+	private Long accountAmout;
 
 	public UserAccounts() {
 		super();
+	}
+
+	public UserAccounts(Integer id, String userName, String no, Integer state, Long accountAmout) {
+		super();
+		this.id = id;
+		this.userName = userName;
+		this.no = no;
+		this.state = state;
+		this.accountAmout = accountAmout;
 	}
 
 	public Integer getId() {
@@ -24,6 +34,14 @@ public class UserAccounts {
 
 	public void setUserName(String userName) {
 		this.userName = userName;
+	}
+
+	public String getNo() {
+		return no;
+	}
+
+	public void setNo(String no) {
+		this.no = no;
 	}
 
 	public Integer getState() {

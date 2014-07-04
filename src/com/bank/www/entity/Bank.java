@@ -3,12 +3,21 @@ package com.bank.www.entity;
 public class Bank {
 	private Integer id;
 	private String bankName;
-	private Float samebankCost;// 同行转账费用
-	private Float interbankCost;// 跨行转账费用
-	private Float rate;// 活期利率
+	private Long samebankCost;
+	private Long interbankCost;
+	private Float rate;// 锟斤拷锟斤拷锟斤拷锟斤拷
 
 	public Bank() {
 		super();
+	}
+
+	public Bank(Integer id, String bankName, Long samebankCost, Long interbankCost, Float rate) {
+		super();
+		this.id = id;
+		this.bankName = bankName;
+		this.samebankCost = samebankCost;
+		this.interbankCost = interbankCost;
+		this.rate = rate;
 	}
 
 	public Integer getId() {
@@ -27,19 +36,19 @@ public class Bank {
 		this.bankName = bankName;
 	}
 
-	public Float getSamebankCost() {
+	public Long getSamebankCost() {
 		return samebankCost;
 	}
 
-	public void setSamebankCost(Float samebankCost) {
+	public void setSamebankCost(Long samebankCost) {
 		this.samebankCost = samebankCost;
 	}
 
-	public Float getInterbankCost() {
+	public Long getInterbankCost() {
 		return interbankCost;
 	}
 
-	public void setInterbankCost(Float interbankCost) {
+	public void setInterbankCost(Long interbankCost) {
 		this.interbankCost = interbankCost;
 	}
 

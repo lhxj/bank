@@ -6,54 +6,54 @@ import javax.swing.*;
 
 import java.awt.FlowLayout;
 
-public class bankJFrame extends JFrame implements ActionListener {
+public class BankJFrame extends JFrame implements ActionListener {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -6707878346285174517L;
-	private JTextField text_zhanghao, text_kahao;// ¶¨ÒåÕËºÅ£¬¿¨ºÅÎÄ±¾ÐÐ
-	private JButton button_cunkuan, button_qukuan, button_yue, button_lixi;// ¶¨Òå´æ¿î£¬È¡¿î£¬²éÑ¯Óà¶î°´Å¥
-	private double balance;// ³ÉÔ±±äÁ¿--²é¿´Óà¶î
+	private JTextField text_zhanghao, text_kahao;// ï¿½ï¿½ï¿½ï¿½ï¿½ËºÅ£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä±ï¿½ï¿½ï¿½
+	private JButton button_cunkuan, button_qukuan, button_yue, button_lixi;// ï¿½ï¿½ï¿½ï¿½ï¿½î£¬È¡ï¿½î£¬ï¿½ï¿½Ñ¯ï¿½ï¿½î°´Å¥
+	private double balance;// ï¿½ï¿½Ô±ï¿½ï¿½ï¿½ï¿½--ï¿½é¿´ï¿½ï¿½ï¿½
 	private double rlixi;
 
-	public bankJFrame() {
-		super("ÒøÐÐ´æÈ¡¿î¹ÜÀí²Ù×÷´°¿Ú");// Ö÷´°¿Ú±êÌâ
-		this.setBounds(300, 240, 400, 150);// ´°¿Ú³õµ¯³ö×ø±ê¼°´óÐ¡
-		this.setResizable(false);// ´°¿Ú´óÐ¡²»ÄÜ¸Ä±ä
-		this.setBackground(Color.lightGray);// ÑÕÉ«ÉèÖÃ
-		this.setLayout(new java.awt.FlowLayout(FlowLayout.CENTER));// Ãæ°å²¼¾ÖÎª¾ÓÖÐ
+	public BankJFrame() {
+		super("ï¿½ï¿½ï¿½Ð´ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");// ï¿½ï¿½ï¿½ï¿½ï¿½Ú±ï¿½ï¿½ï¿½
+		this.setBounds(300, 240, 400, 150);// ï¿½ï¿½ï¿½Ú³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê¼°ï¿½ï¿½Ð¡
+		this.setResizable(false);// ï¿½ï¿½ï¿½Ú´ï¿½Ð¡ï¿½ï¿½ï¿½Ü¸Ä±ï¿½
+		this.setBackground(Color.lightGray);// ï¿½ï¿½É«ï¿½ï¿½ï¿½ï¿½
+		this.setLayout(new java.awt.FlowLayout(FlowLayout.CENTER));// ï¿½ï¿½å²¼ï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-		JPanel panel1 = new JPanel();// ÐÂ½¨µÚÒ»¸öÃæ°å
+		JPanel panel1 = new JPanel();// ï¿½Â½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½
 		this.getContentPane().add(panel1, "North");
 
-		panel1.add(new JLabel("ÕË»§"));
+		panel1.add(new JLabel("ï¿½Ë»ï¿½"));
 		text_zhanghao = new JTextField("zj", 6);
-		text_zhanghao.setEditable(false);// ÎÄ±¾ÐÐ²»¿É±à¼­
+		text_zhanghao.setEditable(false);// ï¿½Ä±ï¿½ï¿½Ð²ï¿½ï¿½É±à¼­
 		panel1.add(text_zhanghao);
 
-		panel1.add(new JLabel("¿¨ºÅ"));// ÓÃ»§¿¨ºÅ±êÇ©¼°ÎÄ±¾ÐÐ
+		panel1.add(new JLabel("ï¿½ï¿½ï¿½ï¿½"));// ï¿½Ã»ï¿½ï¿½ï¿½ï¿½Å±ï¿½Ç©ï¿½ï¿½ï¿½Ä±ï¿½ï¿½ï¿½
 		text_kahao = new JTextField("622627199310150612", 15);
-		text_kahao.setEditable(false);// ÎÄ±¾ÐÐ²»¿É±à¼­
+		text_kahao.setEditable(false);// ï¿½Ä±ï¿½ï¿½Ð²ï¿½ï¿½É±à¼­
 		panel1.add(text_kahao);
 
-		this.setVisible(true);// ´°¿Ú¿É¼û
+		this.setVisible(true);// ï¿½ï¿½ï¿½Ú¿É¼ï¿½
 
 		JPanel panel2 = new JPanel();
-		this.getContentPane().add(panel2, "South");// Ãæ°å²¼¾Ö¼°Ìí¼ÓÃæ°åÖÁÖ÷Ãæ°å
+		this.getContentPane().add(panel2, "South");// ï¿½ï¿½å²¼ï¿½Ö¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
-		button_cunkuan = new JButton("´æ¿î");// ´æ¿î°´Å¥
+		button_cunkuan = new JButton("ï¿½ï¿½ï¿½");// ï¿½ï¿½î°´Å¥
 		panel2.add(button_cunkuan);
 		button_cunkuan.addActionListener(this);
 
-		button_qukuan = new JButton("È¡¿î");// È¡¿î°´Å¥
+		button_qukuan = new JButton("È¡ï¿½ï¿½");// È¡ï¿½î°´Å¥
 		panel2.add(button_qukuan);
 		button_qukuan.addActionListener(this);
 
-		button_yue = new JButton("²éÑ¯µ±Ç°Óà¶î");// ²éÑ¯µ±Ç°Óà¶î°´Å¥
+		button_yue = new JButton("ï¿½ï¿½Ñ¯ï¿½ï¿½Ç°ï¿½ï¿½ï¿½");// ï¿½ï¿½Ñ¯ï¿½ï¿½Ç°ï¿½ï¿½î°´Å¥
 		panel2.add(button_yue);
 		button_yue.addActionListener(this);
 
-		button_lixi = new JButton("µ±Ç°ÀûÏ¢");// µ±Ç°ÀûÏ¢°´Å¥
+		button_lixi = new JButton("ï¿½ï¿½Ç°ï¿½ï¿½Ï¢");// ï¿½ï¿½Ç°ï¿½ï¿½Ï¢ï¿½ï¿½Å¥
 		panel2.add(button_lixi);
 		button_lixi.addActionListener(this);
 
@@ -66,20 +66,20 @@ public class bankJFrame extends JFrame implements ActionListener {
 		 * 
 		 */
 		private static final long serialVersionUID = -6308628086875834528L;
-		JTextField text_cunkuanshu, text_huoqi;// ´æ¿îÊýÓë»îÆÚ´æ¿îÄê·ÝµÄÊäÈë
-		JLabel jlabel_huoqi, jlabel_dingqi;// »îÆÚÆÚÏÞ±êÇ©£¬¶¨ÆÚÆÚÏÞ±êÇ©
-		JButton button_queding;// È·¶¨°´Å¥
-		JRadioButton radio_dingqi, radio_huoqi;// »î¡¢¶¨ÆÚµ¥Ñ¡¿ò
-		JComboBox box_dingqi;// ¶¨ÆÚÄê·Ý×éºÏ¿ò
-		double dnianfeng;// ÄÚ²¿³ÉÔ±±äÁ¿¶¨ÆÚÄê·ÝµÄÉùÃ÷
+		JTextField text_cunkuanshu, text_huoqi;// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú´ï¿½ï¿½ï¿½ï¿½Ýµï¿½ï¿½ï¿½ï¿½ï¿½
+		JLabel jlabel_huoqi, jlabel_dingqi;// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Þ±ï¿½Ç©ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Þ±ï¿½Ç©
+		JButton button_queding;// È·ï¿½ï¿½ï¿½ï¿½Å¥
+		JRadioButton radio_dingqi, radio_huoqi;// ï¿½î¡¢ï¿½ï¿½ï¿½Úµï¿½Ñ¡ï¿½ï¿½
+		JComboBox box_dingqi;// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¿ï¿½
+		double dnianfeng;// ï¿½Ú²ï¿½ï¿½ï¿½Ô±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ýµï¿½ï¿½ï¿½ï¿½ï¿½
 
 		MessageJDialog(String dingqis[]) {
 
-			super("ÌáÊ¾");
+			super("ï¿½ï¿½Ê¾");
 			this.setBounds(350, 290, 300, 220);
 
 			JPanel panel1 = new JPanel();
-			panel1.add(new JLabel("ÇëÊäÈë´æ¿îÊý£¨Ôª£©£º"));
+			panel1.add(new JLabel("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ôªï¿½ï¿½ï¿½ï¿½"));
 			panel1.add(text_cunkuanshu = new JTextField("100", 6));
 			text_cunkuanshu.addActionListener(this);
 			this.getContentPane().add(panel1);
@@ -89,12 +89,12 @@ public class bankJFrame extends JFrame implements ActionListener {
 
 			ButtonGroup bgroup = new ButtonGroup();
 
-			radio_dingqi = new JRadioButton("¶¨ÆÚ´æ¿î");
+			radio_dingqi = new JRadioButton("ï¿½ï¿½ï¿½Ú´ï¿½ï¿½");
 			bgroup.add(radio_dingqi);
 			panel_rb.add(radio_dingqi);
 			radio_dingqi.addActionListener(this);
 
-			radio_huoqi = new JRadioButton("»îÆÚ´æ¿î");
+			radio_huoqi = new JRadioButton("ï¿½ï¿½ï¿½Ú´ï¿½ï¿½");
 			bgroup.add(radio_huoqi);
 			panel_rb.add(radio_huoqi);
 			this.setVisible(true);
@@ -103,7 +103,7 @@ public class bankJFrame extends JFrame implements ActionListener {
 			JPanel panel_rm = new JPanel();
 			panel1.add(panel_rm);
 
-			panel_rm.add(jlabel_dingqi = new JLabel("ÇëÑ¡Ôñ¶¨ÆÚÆÚÏÞ£¨Äê£©"));
+			panel_rm.add(jlabel_dingqi = new JLabel("ï¿½ï¿½Ñ¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Þ£ï¿½ï¿½ê£©"));
 			box_dingqi = new JComboBox(dingqis);
 			box_dingqi.setEditable(true);
 			box_dingqi.addActionListener(this);
@@ -113,23 +113,23 @@ public class bankJFrame extends JFrame implements ActionListener {
 			JPanel panel_rn = new JPanel();
 			panel1.add(panel_rn);
 
-			panel_rn.add(jlabel_huoqi = new JLabel("ÇëÊäÈë»îÆÚÆÚÏÞ£¨Äê£©£º"));
+			panel_rn.add(jlabel_huoqi = new JLabel("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Þ£ï¿½ï¿½ê£©ï¿½ï¿½"));
 			panel_rn.add(text_huoqi = new JTextField("1", 7));
 
-			button_queding = new JButton("È·¶¨");
+			button_queding = new JButton("È·ï¿½ï¿½");
 			panel1.add(button_queding);
 
 			this.setVisible(true);
 
-			button_queding.addActionListener(this);// ×¢²áÎÄ±¾±à¼­ÊÂ¼þ¼àÌýÆ÷
+			button_queding.addActionListener(this);// ×¢ï¿½ï¿½ï¿½Ä±ï¿½ï¿½à¼­ï¿½Â¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		}
 
-		public String str() {// ³ÉÔ±·½·¨£º»ñÈ¡ÎÄ±¾¿òÊäÈë´æ¿îÊý×Ö·û´®
+		public String str() {// ï¿½ï¿½Ô±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¡ï¿½Ä±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö·ï¿½
 			String str = text_cunkuanshu.getText();
 			return str;
 		}
 
-		public double dlixi() {// ³ÉÔ±·½·¨£º¼ÆËã¶¨ÆÚÀûÏ¢
+		public double dlixi() {// ï¿½ï¿½Ô±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ã¶¨ï¿½ï¿½ï¿½ï¿½Ï¢
 			double a = balance;
 			double c = dnianfeng;
 			switch ((int) (c * 4)) {
@@ -151,7 +151,7 @@ public class bankJFrame extends JFrame implements ActionListener {
 			}
 		}
 
-		public double hlixi() {// ³ÉÔ±·½·¨£º¼ÆËã»îÆÚÀûÏ¢·½·¨
+		public double hlixi() {// ï¿½ï¿½Ô±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢ï¿½ï¿½ï¿½ï¿½
 			double hnianfeng = Double.parseDouble((text_huoqi.getText()));
 			double a = balance;
 			double c = hnianfeng;
@@ -159,80 +159,80 @@ public class bankJFrame extends JFrame implements ActionListener {
 			return s;
 		}
 
-		public void actionPerformed(ActionEvent e) {// ÄÚ²¿¶Ô»°¿òÀàµ¥»÷ÊÂ¼þ´¦Àí·½·¨
-			if (radio_dingqi.isSelected()) {// ¶¨ÆÚµ¥Ñ¡¿òÑ¡ÖÐ
+		public void actionPerformed(ActionEvent e) {// ï¿½Ú²ï¿½ï¿½Ô»ï¿½ï¿½ï¿½ï¿½àµ¥ï¿½ï¿½ï¿½Â¼ï¿½ï¿½ï¿½ï¿½?ï¿½ï¿½
+			if (radio_dingqi.isSelected()) {// ï¿½ï¿½ï¿½Úµï¿½Ñ¡ï¿½ï¿½Ñ¡ï¿½ï¿½
 				text_huoqi.setVisible(false);
 				jlabel_huoqi.setVisible(false);
 				jlabel_dingqi.setVisible(true);
 				box_dingqi.setVisible(true);
 				rlixi = dlixi();
-			} else if (radio_huoqi.isSelected()) {// »îÆÚµ¥Ñ¡¿òÑ¡ÖÐ
+			} else if (radio_huoqi.isSelected()) {// ï¿½ï¿½ï¿½Úµï¿½Ñ¡ï¿½ï¿½Ñ¡ï¿½ï¿½
 				jlabel_dingqi.setVisible(false);
 				box_dingqi.setVisible(false);
 				text_huoqi.setVisible(true);
 				jlabel_huoqi.setVisible(true);
 				rlixi = hlixi();
 			}
-			if (e.getSource() == button_queding) {// µ¥»÷È·¶¨°´Å¥
-				double cunkuanzhi = Integer.parseInt(text_cunkuanshu.getText());// ´æ¿îÊýÎÄ±¾¿ò×Ö·û´®Ç¿ÖÆ×ª»»Ë«¾«¶ÈÐÍ
-				if (cunkuanzhi > 0) {// ´æ¿î²Ù×÷
-					balance += cunkuanzhi; // ´æ¿î²Ù×÷Ê¹Óà¶îÖµÔö¼Ó
+			if (e.getSource() == button_queding) {// ï¿½ï¿½ï¿½ï¿½È·ï¿½ï¿½ï¿½ï¿½Å¥
+				double cunkuanzhi = Integer.parseInt(text_cunkuanshu.getText());// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä±ï¿½ï¿½ï¿½ï¿½Ö·ï¿½Ç¿ï¿½ï¿½×ªï¿½ï¿½Ë«ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+				if (cunkuanzhi > 0) {// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+					balance += cunkuanzhi; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¹ï¿½ï¿½ï¿½Öµï¿½ï¿½ï¿½ï¿½
 				}
-				JOptionPane.showMessageDialog(this, "´æ¿î" + cunkuanzhi + "³É¹¦£¡");
-				if (radio_dingqi.isSelected())// ¶¨¡¢»îÆÚµ¥Ñ¡¿òÀûÏ¢¼ÆËã´«ËÍ
+				JOptionPane.showMessageDialog(this, "ï¿½ï¿½ï¿½" + cunkuanzhi + "ï¿½É¹ï¿½ï¿½ï¿½");
+				if (radio_dingqi.isSelected())// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Úµï¿½Ñ¡ï¿½ï¿½ï¿½ï¿½Ï¢ï¿½ï¿½ï¿½ã´«ï¿½ï¿½
 					rlixi = dlixi();
 				if (radio_huoqi.isSelected())
 					rlixi = hlixi();
 			}
-			if (e.getSource() == box_dingqi) {// ¶¨ÆÚ×éºÏ¿òµÄÑ¡Ôñ
+			if (e.getSource() == box_dingqi) {// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¿ï¿½ï¿½Ñ¡ï¿½ï¿½
 				String nianfeng = (String) box_dingqi.getSelectedItem();
 				dnianfeng = Double.parseDouble(nianfeng);
 			}
 		}
 	}
 
-	public double get() {// È¡¿î²Ù×÷£¬²ÎÊýÎªÈ¡¿î½ð¶î£¬·µ»ØÊµ¼ÊÈ¡µ½½ð¶î
-		String password = JOptionPane.showInputDialog(this, "ÇëÊäÈëÈ¡¿îÊý");
+	public double get() {// È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÎªÈ¡ï¿½ï¿½ï¿½î£¬ï¿½ï¿½ï¿½ï¿½Êµï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½
+		String password = JOptionPane.showInputDialog(this, "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½");
 		double qukuanzhi = Integer.parseInt(password);
 		if (qukuanzhi > 0) {
 			if (qukuanzhi <= this.balance) {
-				this.balance -= qukuanzhi; // È¡¿î²Ù×÷Ê¹Óà¶îÖµ¼õÉÙ
-			} else {// ÕË»§Óà¶î²»¹»ËùÈ¡Ê±
-				qukuanzhi = this.balance + rlixi; // È¡×ßÈ«²¿Óà¶î
+				this.balance -= qukuanzhi; // È¡ï¿½ï¿½ï¿½ï¿½ï¿½Ê¹ï¿½ï¿½ï¿½Öµï¿½ï¿½ï¿½ï¿½
+			} else {// ï¿½Ë»ï¿½ï¿½ï¿½î²»ï¿½ï¿½ï¿½ï¿½È¡Ê±
+				qukuanzhi = this.balance + rlixi; // È¡ï¿½ï¿½È«ï¿½ï¿½ï¿½ï¿½ï¿½
 				this.balance = 0;
-				JOptionPane.showMessageDialog(this, "ÄúµÄÓà¶î²»×ã£¬ÒÑÎªÄúÈ¡³öÈ«²¿Óà¶î£¡");
+				JOptionPane.showMessageDialog(this, "ï¿½ï¿½ï¿½ï¿½ï¿½î²»ï¿½ã£¬ï¿½ï¿½Îªï¿½ï¿½È¡ï¿½ï¿½È«ï¿½ï¿½ï¿½ï¿½î£¡");
 			}
-			return qukuanzhi; // ·µ»ØÊµ¼ÊÈ¡¿î¶î
+			return qukuanzhi; // ï¿½ï¿½ï¿½ï¿½Êµï¿½ï¿½È¡ï¿½ï¿½ï¿½
 		}
 		return 0;
 	}
 
-	public double balance() {// ²é¿´ÕË»§Óà¶î
+	public double balance() {// ï¿½é¿´ï¿½Ë»ï¿½ï¿½ï¿½ï¿½
 		return balance + rlixi;
 	}
 
-	public void actionPerformed(ActionEvent e) {// µ¥»÷ÊÂ¼þ´¦Àí·½·¨
-		if (e.getSource() == button_cunkuan) {// µ¥»÷´æ¿î°´Å¥
-			String dingqis[] = { "0.25", "0.5", "1", "2", "3", "5" };// ×éºÏ¿òÄÚÈÝÊý×é
-			new MessageJDialog(dingqis);// ÐÂ½¨MessageJDialogÀà¶ÔÏó
+	public void actionPerformed(ActionEvent e) {// ï¿½ï¿½ï¿½ï¿½ï¿½Â¼ï¿½ï¿½ï¿½ï¿½?ï¿½ï¿½
+		if (e.getSource() == button_cunkuan) {// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½î°´Å¥
+			String dingqis[] = { "0.25", "0.5", "1", "2", "3", "5" };// ï¿½ï¿½Ï¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+			new MessageJDialog(dingqis);// ï¿½Â½ï¿½MessageJDialogï¿½ï¿½ï¿½ï¿½ï¿½
 		}
-		if (e.getSource() == button_yue) {// µ¥»÷²éÑ¯Óà¶î°´Å¥
+		if (e.getSource() == button_yue) {// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ¯ï¿½ï¿½î°´Å¥
 			double relixi = balance();
-			JOptionPane.showMessageDialog(this, "×ð¾´µÄzjÏÈÉú£¬ÄúµÄµ±Ç°ÕË»§Óà¶îÎª£º" + (relixi)
+			JOptionPane.showMessageDialog(this, "ï¿½ð¾´µï¿½zjï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Äµï¿½Ç°ï¿½Ë»ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½" + (relixi)
 					+ "Ôª");
 		}
-		if (e.getSource() == button_qukuan) {// µ¥»÷È¡¿î°´Å¥
+		if (e.getSource() == button_qukuan) {// ï¿½ï¿½ï¿½ï¿½È¡ï¿½î°´Å¥
 			double qk = get();
-			JOptionPane.showMessageDialog(this, "È¡¿î" + qk + "Ôª³É¹¦£¡");
+			JOptionPane.showMessageDialog(this, "È¡ï¿½ï¿½" + qk + "Ôªï¿½É¹ï¿½ï¿½ï¿½");
 		}
 
-		if (e.getSource() == button_lixi) {// µ¥»÷¼ÆËãÀûÏ¢°´Å¥
-			JOptionPane.showMessageDialog(this, "×ð¾´µÄzjÏÈÉú£¬ÄúµÄµ±Ç°ÕË»§ÀûÏ¢Îª£º" + rlixi
+		if (e.getSource() == button_lixi) {// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢ï¿½ï¿½Å¥
+			JOptionPane.showMessageDialog(this, "ï¿½ð¾´µï¿½zjï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Äµï¿½Ç°ï¿½Ë»ï¿½ï¿½ï¿½Ï¢Îªï¿½ï¿½" + rlixi
 					+ "Ôª");
 		}
 	}
 
-	public static void main(String args[]) {// ¿ò¼ÜbankJFrameÖ÷º¯Êý
-		new bankJFrame();
+	public static void main(String args[]) {// ï¿½ï¿½ï¿½bankJFrameï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+		new BankJFrame();
 	}
 }

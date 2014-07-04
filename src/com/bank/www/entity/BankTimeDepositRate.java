@@ -3,12 +3,20 @@ package com.bank.www.entity;
 public class BankTimeDepositRate {
 
 	private Integer id;
-	private Bank bank;// 银行
-	private Integer yearCount;// 定期年限
-	private Float rate;// 定期利率
+	private Integer bankId;
+	private Integer yearCount;
+	private Float rate;
 
 	public BankTimeDepositRate() {
 		super();
+	}
+
+	public BankTimeDepositRate(Integer id, Integer bankId, Integer yearCount, Float rate) {
+		super();
+		this.id = id;
+		this.bankId = bankId;
+		this.yearCount = yearCount;
+		this.rate = rate;
 	}
 
 	public Integer getId() {
@@ -19,12 +27,12 @@ public class BankTimeDepositRate {
 		this.id = id;
 	}
 
-	public Bank getBank() {
-		return bank;
+	public Integer getBankId() {
+		return bankId;
 	}
 
-	public void setBank(Bank bank) {
-		this.bank = bank;
+	public void setBankId(Integer bankId) {
+		this.bankId = bankId;
 	}
 
 	public Integer getYearCount() {
