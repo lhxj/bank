@@ -5,7 +5,7 @@ public class Bank {
 	private String bankName;
 	private Long samebankCost;
 	private Long interbankCost;
-	private Float rate;// ��������
+	private Float rate;// 活期利率
 
 	public Bank() {
 		super();

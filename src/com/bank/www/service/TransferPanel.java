@@ -40,7 +40,7 @@ public class TransferPanel extends JPanel implements ActionListener {
 		Border title = BorderFactory.createTitledBorder("用户转账操作窗口");
 		this.setBorder(title);
 
-		// initData();
+		initData();
 
 		this.add(basePanel());
 	}
@@ -89,7 +89,7 @@ public class TransferPanel extends JPanel implements ActionListener {
 		panel5.add(new Label("本次转账所需费用"));
 		cost = new JTextField(6);
 		cost.setEnabled(false);
-		// cost.setText(bank.getSamebankCost().toString());
+		cost.setText(bank.getSamebankCost().toString());
 		panel5.add(cost);
 		panel.add(panel5);
 
@@ -120,10 +120,10 @@ public class TransferPanel extends JPanel implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		if (e.getSource() == sameTransfer) {
-			// cost.setText(bank.getSamebankCost().toString());
+			cost.setText(bank.getSamebankCost().toString());
 		}
 		if (e.getSource() == interTransfer) {
-			// cost.setText(bank.getInterbankCost().toString());
+			cost.setText(bank.getInterbankCost().toString());
 		}
 		if (e.getSource() == submit) {
 			String outcardno = outno.getText();
@@ -144,16 +144,22 @@ public class TransferPanel extends JPanel implements ActionListener {
 				JOptionPane.showMessageDialog(null, "不存在卡号为：" + outcardno + "的账户", null, JOptionPane.ERROR_MESSAGE);
 				return;
 			}
+			if (Float.parseFloat(amount) * 100 > outu.getAccountAmout()) {
+				JOptionPane.showMessageDialog(null, "转账金额超出用户账户余额", null, JOptionPane.WARNING_MESSAGE);
+				return;
+			}
 			UserAccounts inu = ud.findUserByNO(incardno);
 			if (inu == null) {
 				JOptionPane.showMessageDialog(null, "不存在卡号为：" + incardno + "的账户", null, JOptionPane.ERROR_MESSAGE);
 				return;
 			}
-			Long bankamount = sameTransfer.isSelected() ? bank.getSamebankCost() : bank.getInterbankCost();
-			Long outamount = outu.getAccountAmout() - Long.parseLong(amount) - bankamount;
-			Long inamount = inu.getAccountAmout() + Long.parseLong(amount);
+			Long bankamount = sameTransfer.isSelected() ? bank.getSamebankCost() * 100 : bank.getInterbankCost() * 100;
+			Long outamount = (long) (outu.getAccountAmout() - Float.parseFloat(amount) * 100 - bankamount);
+			Long inamount = (long) (inu.getAccountAmout() + Float.parseFloat(amount) * 100);
 			if (ud.exchange(outu.getId(), outamount, inu.getId(), inamount)) {
 				JOptionPane.showMessageDialog(null, "转账成功");
+				money.setText("");
+				inno.setText("");
 			} else {
 				JOptionPane.showMessageDialog(null, "转账失败", null, JOptionPane.ERROR_MESSAGE);
 			}
@@ -163,7 +169,7 @@ public class TransferPanel extends JPanel implements ActionListener {
 			money.setText("");
 			inno.setText("");
 			sameTransfer.setSelected(true);
-			// cost.setText(bank.getSamebankCost().toString());
+			cost.setText(bank.getSamebankCost().toString());
 		}
 		if (e.getSource() == back) {
 			this.frame.remove(this);

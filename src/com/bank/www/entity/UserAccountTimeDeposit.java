@@ -8,6 +8,7 @@ public class UserAccountTimeDeposit {
 	private Integer userId;
 	private Timestamp begin;
 	private Long amount;
+	private Integer year;
 
 	public UserAccountTimeDeposit() {
 		super();
@@ -43,6 +44,14 @@ public class UserAccountTimeDeposit {
 
 	public void setAmount(Long amount) {
 		this.amount = amount;
+	}
+
+	public Integer getYear() {
+		return year;
+	}
+
+	public void setYear(Integer year) {
+		this.year = year;
 	}
 
 }

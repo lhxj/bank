@@ -1,137 +1,167 @@
 package com.bank.www.dao;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
+import com.bank.www.entity.UserAccountTimeDeposit;
 import com.bank.www.entity.UserAccounts;
 import com.bank.www.utils.DBHelper;
 
 public class UserDao {
 
-	public DBHelper db;
-	private String sql;
-	private ResultSet ret;
-	private Statement st;
-
 	public UserAccounts loadUser(Integer userId) {
-		sql = "select * from user_account where id = " + userId;
-		db = new DBHelper(sql);
+		String sql = "select * from user_account where id = " + userId;
 		UserAccounts userAccounts = null;
+		Connection conn = DBHelper.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try {
-			ret = db.pst.executeQuery();
-			while (ret.next()) {
-				userAccounts = new UserAccounts(ret.getInt(1), ret.getString(2), ret.getString(3), ret.getInt(4),
-						ret.getLong(5));
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				userAccounts = new UserAccounts(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getLong(5),
+						rs.getDate(6));
 			}
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
 		} finally {
-			db.close();
-			close();
+			DBHelper.closeResources(null, pstmt, rs);
 		}
 		return userAccounts;
 	}
 
 	public UserAccounts findUserByNO(String no) {
-		sql = "select * from user_account u where u.no = " + no;
-		db = new DBHelper(sql);
+		String sql = "select * from user_account where no = " + no;
 		UserAccounts userAccounts = null;
+		Connection conn = DBHelper.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try {
-			ret = db.pst.executeQuery();
-			while (ret.next()) {
-				userAccounts = new UserAccounts(ret.getInt(1), ret.getString(2), ret.getString(3), ret.getInt(4),
-						ret.getLong(5));
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				userAccounts = new UserAccounts(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getLong(5),
+						rs.getDate(6));
 			}
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
 		} finally {
-			db.close();
-			close();
+			DBHelper.closeResources(null, pstmt, rs);
 		}
 		return userAccounts;
 	}
 
 	public boolean create(String userName, String no) {
-		sql = "insert into user_account value(" + userName + "," + no + ", 1, 0)";
-		db = new DBHelper(sql);
+		String sql = "insert into user_account(user_name, no) values('" + userName + "','" + no + "')";
+		Connection conn = DBHelper.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		boolean flag = false;
 		try {
-			st = db.conn.createStatement();
-			flag = st.executeUpdate(sql) == 1;
+			pstmt = conn.prepareStatement(sql);
+			flag = pstmt.executeUpdate() == 1;
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
 		} finally {
-			db.close();
-			close();
+			DBHelper.closeResources(null, pstmt, rs);
 		}
 		return flag;
 	}
 
 	public boolean updateState(Integer userId, Integer state) {
-		sql = "update user_account set state = " + state + " where id = " + userId;
-		db = new DBHelper(sql);
+		String sql = "update user_account set state = " + state + " where id = " + userId;
+		Connection conn = DBHelper.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		boolean flag = false;
 		try {
-			st = db.conn.createStatement();
-			flag = st.executeUpdate(sql) == 1;
+			pstmt = conn.prepareStatement(sql);
+			flag = pstmt.executeUpdate() == 1;
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
 		} finally {
-			db.close();
-			close();
+			DBHelper.closeResources(null, pstmt, rs);
 		}
 		return flag;
 	}
 
 	public boolean updateAmount(Integer userId, Long amount) {
-		sql = "update user_account set amount = " + amount + " where id = " + userId;
-		db = new DBHelper(sql);
+		String sql = "update user_account set amount = " + amount + " where id = " + userId;
+		Connection conn = DBHelper.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		boolean flag = false;
 		try {
-			st = db.conn.createStatement();
-			flag = st.executeUpdate(sql) == 1;
+			pstmt = conn.prepareStatement(sql);
+			flag = pstmt.executeUpdate() == 1;
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
 		} finally {
-			db.close();
-			close();
+			DBHelper.closeResources(null, pstmt, rs);
 		}
 		return flag;
 	}
 
 	public boolean exchange(Integer outId, Long outamount, Integer inId, Long inamount) {
+		String sql1 = "update user_account set amount = " + outamount + " where id = " + outId;
+		String sql2 = "update user_account set amount = " + inamount + " where id = " + inId;
 		boolean flag = false;
+		Connection conn = DBHelper.getConnection();
+		PreparedStatement pstmt1 = null;
+		PreparedStatement pstmt2 = null;
+		ResultSet rs = null;
 		try {
-			db.conn.setAutoCommit(false);
-			flag = updateAmount(outId, outamount) && updateAmount(inId, inamount);
-			db.conn.commit();
+			conn.setAutoCommit(false);
+			conn.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
+			pstmt1 = conn.prepareStatement(sql1);
+			pstmt2 = conn.prepareStatement(sql2);
+			flag = pstmt1.executeUpdate() == 1 && pstmt2.executeUpdate() == 1;
+			conn.commit();
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		} finally {
-			db.close();
-			close();
+			DBHelper.closeResources(null, pstmt1, rs);
+			DBHelper.closeResources(null, pstmt2, rs);
 		}
 		return flag;
 	}
 
-	private void close() {
+	public List<UserAccountTimeDeposit> searchDeposit(String cardno) {
+		String sql = "select ad.* from account_deposit ad left join user_account ua on ua.id = ad.user_id ";
+		sql += "where ua.no = " + cardno;
+		List<UserAccountTimeDeposit> list = new ArrayList<UserAccountTimeDeposit>();
+		Connection conn = DBHelper.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try {
-			if (ret != null) {
-				ret.close();
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				UserAccountTimeDeposit uatd = new UserAccountTimeDeposit();
+				list.add(uatd);
 			}
-			if (st != null) {
-				st.close();
-			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO: handle exception
+		} finally {
+			DBHelper.closeResources(null, pstmt, rs);
 		}
+		return list;
 	}
+
 }

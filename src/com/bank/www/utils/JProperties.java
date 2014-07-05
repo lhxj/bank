@@ -1,26 +1,34 @@
 package com.bank.www.utils;
 
-import java.io.InputStream;
+import java.io.IOException;
 import java.util.Properties;
 
 public class JProperties {
 
-	private Properties properties = null;
-	private static String name = "jdbc.properties";
-
-	public Properties getPro() {
-		InputStream in;
+	private static Properties p = new Properties();
+	// 用静态代码块
+	static {
 		try {
-			in = JProperties.class.getResourceAsStream(name);
-			if (in != null) {
-				properties = new Properties();
-				properties.load(in);
-			}
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
+			p.load(JProperties.class.getResourceAsStream("jdbc.properties"));
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		return properties;
+	}
+
+	public static String getDriver() {
+		return p.getProperty("driver");
+	}
+
+	public static String getUrl() {
+		return p.getProperty("url");
+	}
+
+	public static String getUser() {
+		return p.getProperty("user");
+	}
+
+	public static String getPwd() {
+		return p.getProperty("password");
 	}
 
 }

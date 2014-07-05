@@ -1,23 +1,27 @@
 package com.bank.www.entity;
 
+import java.sql.Date;
+
 public class UserAccounts {
 	private Integer id;
 	private String userName;
 	private String no;
 	private Integer state;
 	private Long accountAmout;
+	private Date amountTime;
 
 	public UserAccounts() {
 		super();
 	}
 
-	public UserAccounts(Integer id, String userName, String no, Integer state, Long accountAmout) {
+	public UserAccounts(Integer id, String userName, String no, Integer state, Long accountAmout, Date amountTime) {
 		super();
 		this.id = id;
 		this.userName = userName;
 		this.no = no;
 		this.state = state;
 		this.accountAmout = accountAmout;
+		this.amountTime = amountTime;
 	}
 
 	public Integer getId() {
@@ -58,6 +62,14 @@ public class UserAccounts {
 
 	public void setAccountAmout(Long accountAmout) {
 		this.accountAmout = accountAmout;
+	}
+
+	public Date getAmountTime() {
+		return amountTime;
+	}
+
+	public void setAmountTime(Date amountTime) {
+		this.amountTime = amountTime;
 	}
 
 }
