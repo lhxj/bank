@@ -1,6 +1,6 @@
 package com.bank.www.entity;
 
-import java.security.Timestamp;
+import java.sql.Timestamp;
 
 public class UserAccountTimeDeposit {
 
@@ -12,6 +12,16 @@ public class UserAccountTimeDeposit {
 
 	public UserAccountTimeDeposit() {
 		super();
+	}
+
+	public UserAccountTimeDeposit(Integer id, Integer userId, Timestamp begin,
+			Long amount, Integer year) {
+		super();
+		this.id = id;
+		this.userId = userId;
+		this.begin = begin;
+		this.amount = amount;
+		this.year = year;
 	}
 
 	public Integer getId() {

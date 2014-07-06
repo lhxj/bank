@@ -1,6 +1,6 @@
 package com.bank.www.entity;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 
 public class UserAccounts {
 	private Integer id;
@@ -8,13 +8,13 @@ public class UserAccounts {
 	private String no;
 	private Integer state;
 	private Long accountAmout;
-	private Date amountTime;
+	private Timestamp amountTime;
 
 	public UserAccounts() {
 		super();
 	}
 
-	public UserAccounts(Integer id, String userName, String no, Integer state, Long accountAmout, Date amountTime) {
+	public UserAccounts(Integer id, String userName, String no, Integer state, Long accountAmout, Timestamp amountTime) {
 		super();
 		this.id = id;
 		this.userName = userName;
@@ -64,11 +64,11 @@ public class UserAccounts {
 		this.accountAmout = accountAmout;
 	}
 
-	public Date getAmountTime() {
+	public Timestamp getAmountTime() {
 		return amountTime;
 	}
 
-	public void setAmountTime(Date amountTime) {
+	public void setAmountTime(Timestamp amountTime) {
 		this.amountTime = amountTime;
 	}
 
