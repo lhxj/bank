@@ -5,17 +5,16 @@ import java.sql.Timestamp;
 public class UserAccountTimeDeposit {
 
 	private Integer id;
-	private Integer userId;
-	private Timestamp begin;
-	private Long amount;
-	private Integer year;
+	private Integer userId;// 账户ID 对应UserAccounts中的id
+	private Timestamp begin;// 定期开始时间
+	private Long amount;// 定期金额
+	private Integer year;// 定期年限
 
 	public UserAccountTimeDeposit() {
 		super();
 	}
 
-	public UserAccountTimeDeposit(Integer id, Integer userId, Timestamp begin,
-			Long amount, Integer year) {
+	public UserAccountTimeDeposit(Integer id, Integer userId, Timestamp begin, Long amount, Integer year) {
 		super();
 		this.id = id;
 		this.userId = userId;

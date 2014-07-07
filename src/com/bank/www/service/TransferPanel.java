@@ -154,9 +154,9 @@ public class TransferPanel extends JPanel implements ActionListener {
 				return;
 			}
 			Long bankamount = sameTransfer.isSelected() ? bank.getSamebankCost() * 100 : bank.getInterbankCost() * 100;
-			Long outamount = (long) (outu.getAccountAmout() - Float.parseFloat(amount) * 100 - bankamount);
-			Long inamount = (long) (inu.getAccountAmout() + Float.parseFloat(amount) * 100);
-			if (ud.exchange(outu.getId(), outamount, inu.getId(), inamount)) {
+			Long outamount = (long) (Float.parseFloat(amount) * 100.0 + bankamount);
+			Long inamount = (long) (Float.parseFloat(amount) * 100.0);
+			if (ud.exchange(outu.getId(), outu.getAccountAmout(), outamount, inu.getId(), inu.getAccountAmout(), inamount)) {
 				JOptionPane.showMessageDialog(null, "转账成功");
 				money.setText("");
 				inno.setText("");

@@ -9,20 +9,22 @@ public class AccountLog {
 	private Long drawAmount;// 取款金额
 	private Long depositAmount;// 存款金额
 	private Timestamp time;// 时间
+	private Integer type;// 类型 0--活期 1--定期 2--定期转活期
 	private String remark;// 备注
 
 	public AccountLog() {
 		super();
 	}
 
-	public AccountLog(Integer id, Integer userId, Long drawAmount,
-			Long depositAmount, Timestamp time, String remark) {
+	public AccountLog(Integer id, Integer userId, Long drawAmount, Long depositAmount, Timestamp time, Integer type,
+			String remark) {
 		super();
 		this.id = id;
 		this.userId = userId;
 		this.drawAmount = drawAmount;
 		this.depositAmount = depositAmount;
 		this.time = time;
+		this.type = type;
 		this.remark = remark;
 	}
 
@@ -64,6 +66,14 @@ public class AccountLog {
 
 	public void setTime(Timestamp time) {
 		this.time = time;
+	}
+
+	public Integer getType() {
+		return type;
+	}
+
+	public void setType(Integer type) {
+		this.type = type;
 	}
 
 	public String getRemark() {

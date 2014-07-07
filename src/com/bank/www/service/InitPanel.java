@@ -17,11 +17,11 @@ public class InitPanel extends JPanel implements ActionListener {
 	 */
 	private static final long serialVersionUID = -5717870149600774536L;
 
-	private JButton userButton, transferButton, bankButton, accountButton;
+	private JButton userButton, transferButton, bankButton, accountButton, statisticsButton, depositButton;
 	private JFrame jFrame;
 
 	public InitPanel() {
-		this.setLayout(new GridLayout(2, 3));
+		this.setLayout(new GridLayout(3, 2));
 		Border title = BorderFactory.createTitledBorder("系统主窗口");
 		this.setBorder(title);
 
@@ -40,6 +40,14 @@ public class InitPanel extends JPanel implements ActionListener {
 		accountButton = new JButton("账户存取款管理");
 		this.add(accountButton);
 		accountButton.addActionListener(this);
+
+		statisticsButton = new JButton("按期查询记录管理");
+		this.add(statisticsButton);
+		statisticsButton.addActionListener(this);
+
+		depositButton = new JButton("定期存款统计管理");
+		this.add(depositButton);
+		depositButton.addActionListener(this);
 	}
 
 	public InitPanel(JFrame jFrame) {
@@ -71,6 +79,18 @@ public class InitPanel extends JPanel implements ActionListener {
 		if (e.getSource() == accountButton) {
 			this.jFrame.remove(this);
 			this.jFrame.getContentPane().add(new AccountPanel(this.jFrame));
+			this.jFrame.setVisible(true);
+			this.jFrame.repaint();
+		}
+		if (e.getSource() == statisticsButton) {
+			this.jFrame.remove(this);
+			this.jFrame.getContentPane().add(new StatisticsPanel(this.jFrame));
+			this.jFrame.setVisible(true);
+			this.jFrame.repaint();
+		}
+		if (e.getSource() == depositButton) {
+			this.jFrame.remove(this);
+			this.jFrame.getContentPane().add(new depositPanel(this.jFrame));
 			this.jFrame.setVisible(true);
 			this.jFrame.repaint();
 		}

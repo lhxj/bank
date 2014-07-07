@@ -4,11 +4,11 @@ import java.sql.Timestamp;
 
 public class UserAccounts {
 	private Integer id;
-	private String userName;
-	private String no;
-	private Integer state;
-	private Long accountAmout;
-	private Timestamp amountTime;
+	private String userName;// 用户名称
+	private String no;// 卡号
+	private Integer state;// 状态 1--正常 2--挂失 0--销户
+	private Long accountAmout;// 用户账户活期余额
+	private Timestamp amountTime;// 用户账户活期余额利率最后计算时间
 
 	public UserAccounts() {
 		super();

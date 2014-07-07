@@ -3,9 +3,9 @@ package com.bank.www.entity;
 public class BankTimeDepositRate {
 
 	private Integer id;
-	private Integer bankId;
-	private Integer yearCount;
-	private Float rate;
+	private Integer bankId;// 银行ID -- 对应Bank中的id
+	private Integer yearCount;// 定期年限 有 1 3 5
+	private Float rate;// 定期利率
 
 	public BankTimeDepositRate() {
 		super();

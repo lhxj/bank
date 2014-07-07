@@ -160,14 +160,12 @@ public class AccountPanel extends JPanel implements ActionListener {
 	private void find() {
 		UserDao udao = new UserDao();
 		if ("".equals(no.getText())) {
-			JOptionPane.showMessageDialog(null, "请输入需要查询帐户信息的帐户卡号", null,
-					JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(null, "请输入需要查询帐户信息的帐户卡号", null, JOptionPane.INFORMATION_MESSAGE);
 			return;
 		}
 		ua = udao.findUserByNO(no.getText());
 		if (ua == null) {
-			JOptionPane.showMessageDialog(null, "不存在卡号为：" + no.getText()
-					+ "的账户", null, JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "不存在卡号为：" + no.getText() + "的账户", null, JOptionPane.ERROR_MESSAGE);
 			return;
 		}
 		long current = System.currentTimeMillis();
@@ -176,12 +174,9 @@ public class AccountPanel extends JPanel implements ActionListener {
 		if (day >= 1) {
 			BankDao bdao = new BankDao();
 			List<Bank> list = bdao.list();
-			Long interest = (long) ((ua.getAccountAmout() / 100.0)
-					* list.get(0).getRate() * day / 360 * 100);
-			Timestamp interestTime = new Timestamp(time + day * 24 * 60 * 60
-					* 1000);
-			if (udao.interest(ua.getId(), ua.getAccountAmout(), interest,
-					interestTime)) {
+			Long interest = (long) ((ua.getAccountAmout() / 100.0) * list.get(0).getRate() * day / 360 * 100);
+			Timestamp interestTime = new Timestamp(time + day * 24 * 60 * 60 * 1000);
+			if (udao.interest(ua.getId(), ua.getAccountAmout(), interest, interestTime)) {
 				ua = udao.findUserByNO(no.getText());
 			}
 		}
@@ -198,12 +193,9 @@ public class AccountPanel extends JPanel implements ActionListener {
 			Long current1 = ua.getAmountTime().getTime();
 			if (current1 >= future) {
 				// 定期时间到，多余的算做活期
-				BankTimeDepositRate bankTimeRate = bdao.findRate(1,
-						timeDeposit.getYear());
-				Long amount = (long) ((timeDeposit.getAmount() / 100.0)
-						* bankTimeRate.getRate() * timeDeposit.getYear() * 100);// 这里只计算了利息部分
-				if (bdao.timeOver(ua.getId(), ua.getAccountAmout(),
-						timeDeposit.getAmount(), amount, new Timestamp(future),
+				BankTimeDepositRate bankTimeRate = bdao.findRate(1, timeDeposit.getYear());
+				Long amount = (long) ((timeDeposit.getAmount() / 100.0) * bankTimeRate.getRate() * timeDeposit.getYear() * 100);// 这里只计算了利息部分
+				if (bdao.timeOver(ua.getId(), ua.getAccountAmout(), timeDeposit.getAmount(), amount, new Timestamp(future),
 						timeDeposit.getId())) {
 					timeToLife(timeDeposit.getId());
 				}
@@ -228,21 +220,17 @@ public class AccountPanel extends JPanel implements ActionListener {
 		depositAmount = new JTextField(8);
 		panel2.add(depositAmount);
 		panel.add(panel2);
-		int response = JOptionPane.showOptionDialog(this, panel, "帐户存款",
-				JOptionPane.NO_OPTION, JOptionPane.OK_CANCEL_OPTION, null,
-				options, options[0]);
+		int response = JOptionPane.showOptionDialog(this, panel, "帐户存款", JOptionPane.NO_OPTION,
+				JOptionPane.OK_CANCEL_OPTION, null, options, options[0]);
 		if (response == 0) {
 			if ("".equals(depositAmount.getText())) {
-				JOptionPane.showMessageDialog(null, "请输入存款金额", null,
-						JOptionPane.INFORMATION_MESSAGE);
+				JOptionPane.showMessageDialog(null, "请输入存款金额", null, JOptionPane.INFORMATION_MESSAGE);
 				depositMoney();
 				return;
 			}
-			Pattern pattern = Pattern
-					.compile("^(([1-9]{1}\\d*)|([0]{1}))(\\.(\\d){1,2})?$");
+			Pattern pattern = Pattern.compile("^(([1-9]{1}\\d*)|([0]{1}))(\\.(\\d){1,2})?$");
 			if (!pattern.matcher(depositAmount.getText()).matches()) {
-				JOptionPane.showMessageDialog(null, "请输入正确的存款金额", null,
-						JOptionPane.INFORMATION_MESSAGE);
+				JOptionPane.showMessageDialog(null, "请输入正确的存款金额", null, JOptionPane.INFORMATION_MESSAGE);
 				depositMoney();
 				return;
 			}
@@ -251,8 +239,7 @@ public class AccountPanel extends JPanel implements ActionListener {
 			if (udao.depositMoney(ua.getId(), ua.getAccountAmout(), amount)) {
 				JOptionPane.showMessageDialog(null, "存款成功");
 			} else {
-				JOptionPane.showMessageDialog(null, "存款失败", null,
-						JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null, "存款失败", null, JOptionPane.ERROR_MESSAGE);
 			}
 		}
 	}
@@ -271,37 +258,31 @@ public class AccountPanel extends JPanel implements ActionListener {
 		drawAmount = new JTextField(8);
 		panel2.add(drawAmount);
 		panel.add(panel2);
-		int response = JOptionPane.showOptionDialog(this, panel, "帐户取款",
-				JOptionPane.NO_OPTION, JOptionPane.OK_CANCEL_OPTION, null,
-				options, options[0]);
+		int response = JOptionPane.showOptionDialog(this, panel, "帐户取款", JOptionPane.NO_OPTION,
+				JOptionPane.OK_CANCEL_OPTION, null, options, options[0]);
 		if (response == 0) {
 			if ("".equals(drawAmount.getText())) {
-				JOptionPane.showMessageDialog(null, "请输入取款金额", null,
-						JOptionPane.INFORMATION_MESSAGE);
+				JOptionPane.showMessageDialog(null, "请输入取款金额", null, JOptionPane.INFORMATION_MESSAGE);
 				drawMoney();
 				return;
 			}
-			Pattern pattern = Pattern
-					.compile("^(([1-9]{1}\\d*)|([0]{1}))(\\.(\\d){1,2})?$");
+			Pattern pattern = Pattern.compile("^(([1-9]{1}\\d*)|([0]{1}))(\\.(\\d){1,2})?$");
 			if (!pattern.matcher(drawAmount.getText()).matches()) {
-				JOptionPane.showMessageDialog(null, "请输入正确的取款金额", null,
-						JOptionPane.INFORMATION_MESSAGE);
+				JOptionPane.showMessageDialog(null, "请输入正确的取款金额", null, JOptionPane.INFORMATION_MESSAGE);
 				drawMoney();
 				return;
 			}
 			UserDao udao = new UserDao();
 			Long amount = (long) (Double.parseDouble(drawAmount.getText()) * 100);
 			if (ua.getAccountAmout() < amount) {
-				JOptionPane.showMessageDialog(null, "帐户余额不足取款金额", null,
-						JOptionPane.INFORMATION_MESSAGE);
+				JOptionPane.showMessageDialog(null, "帐户余额不足取款金额", null, JOptionPane.INFORMATION_MESSAGE);
 				drawMoney();
 				return;
 			}
 			if (udao.drawMoney(ua.getId(), ua.getAccountAmout(), amount)) {
 				JOptionPane.showMessageDialog(null, "取款成功");
 			} else {
-				JOptionPane.showMessageDialog(null, "取款失败", null,
-						JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null, "取款失败", null, JOptionPane.ERROR_MESSAGE);
 			}
 		}
 	}
@@ -360,21 +341,17 @@ public class AccountPanel extends JPanel implements ActionListener {
 		depositAmount = new JTextField(8);
 		panel3.add(depositAmount);
 		panel.add(panel3);
-		int response = JOptionPane.showOptionDialog(this, panel, "帐户存款",
-				JOptionPane.NO_OPTION, JOptionPane.OK_CANCEL_OPTION, null,
-				options, options[0]);
+		int response = JOptionPane.showOptionDialog(this, panel, "帐户存款", JOptionPane.NO_OPTION,
+				JOptionPane.OK_CANCEL_OPTION, null, options, options[0]);
 		if (response == 0) {
 			if ("".equals(depositAmount.getText())) {
-				JOptionPane.showMessageDialog(null, "请输入存款金额", null,
-						JOptionPane.INFORMATION_MESSAGE);
+				JOptionPane.showMessageDialog(null, "请输入存款金额", null, JOptionPane.INFORMATION_MESSAGE);
 				timeDeposit();
 				return;
 			}
-			Pattern pattern = Pattern
-					.compile("^(([1-9]{1}\\d*)|([0]{1}))(\\.(\\d){1,2})?$");
+			Pattern pattern = Pattern.compile("^(([1-9]{1}\\d*)|([0]{1}))(\\.(\\d){1,2})?$");
 			if (!pattern.matcher(depositAmount.getText()).matches()) {
-				JOptionPane.showMessageDialog(null, "请输入正确的存款金额", null,
-						JOptionPane.INFORMATION_MESSAGE);
+				JOptionPane.showMessageDialog(null, "请输入正确的存款金额", null, JOptionPane.INFORMATION_MESSAGE);
 				timeDeposit();
 				return;
 			}
@@ -383,8 +360,7 @@ public class AccountPanel extends JPanel implements ActionListener {
 			if (udao.timeDeposit(ua.getId(), year, amount)) {
 				JOptionPane.showMessageDialog(null, "存款成功");
 			} else {
-				JOptionPane.showMessageDialog(null, "存款失败", null,
-						JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null, "存款失败", null, JOptionPane.ERROR_MESSAGE);
 			}
 		}
 	}
@@ -399,11 +375,9 @@ public class AccountPanel extends JPanel implements ActionListener {
 			for (int i = 0; i < list.size(); i++) {
 				UserAccountTimeDeposit ua = list.get(i);
 				data[i][0] = ua.getId();
-				data[i][1] = new SimpleDateFormat(formate)
-						.format(ua.getBegin());
+				data[i][1] = new SimpleDateFormat(formate).format(ua.getBegin());
 				data[i][2] = ua.getAmount() / 100.0;
-				data[i][3] = ua.getYear() == 1 ? "一年"
-						: ua.getYear() == 3 ? "三年" : "五年";
+				data[i][3] = ua.getYear() == 1 ? "一年" : ua.getYear() == 3 ? "三年" : "五年";
 				data[i][4] = "转为活期";
 			}
 		}
@@ -413,8 +387,7 @@ public class AccountPanel extends JPanel implements ActionListener {
 		table.getColumnModel().getColumn(0).setPreferredWidth(1);
 		table.getColumnModel().getColumn(4).setPreferredWidth(80);
 		table.getColumn("操作").setCellRenderer(new MyButtonRenderer());
-		table.getColumn("操作").setCellEditor(
-				new MyButtonEditor(new JTextField()));
+		table.getColumn("操作").setCellEditor(new MyButtonEditor(new JTextField()));
 		return table;
 	}
 
@@ -427,14 +400,10 @@ public class AccountPanel extends JPanel implements ActionListener {
 		int day = (int) ((current - time) / (24 * 60 * 60 * 1000));
 		BankDao bdao = new BankDao();
 		Bank bankLifeRate = bdao.list().get(0);
-		Long amount = (long) (timeDeposit.getAmount() + (timeDeposit
-				.getAmount() / 100.0)
-				* bankLifeRate.getRate()
-				* day
-				/ 360.0
-				* 100);
-		if (bdao.timeToLife(uas.getId(), uas.getAccountAmout(),
-				timeDeposit.getAmount(), amount, timeId)) {
+		Long amount = (long) (timeDeposit.getAmount() + (timeDeposit.getAmount() / 100.0) * bankLifeRate.getRate() * day
+				/ 360.0 * 100);
+		if (bdao.timeToLife(uas.getId(), uas.getAccountAmout(), timeDeposit.getAmount(), amount, timeId,
+				timeDeposit.getAmount())) {
 			find();
 			return true;
 		} else {
@@ -466,8 +435,8 @@ public class AccountPanel extends JPanel implements ActionListener {
 
 		}
 
-		public Component getTableCellEditorComponent(final JTable table,
-				Object value, boolean isSelected, int row, int column) {
+		public Component getTableCellEditorComponent(final JTable table, Object value, boolean isSelected, int row,
+				int column) {
 			if (isSelected) {
 				button.setForeground(table.getSelectionForeground());
 				button.setBackground(table.getSelectionBackground());
@@ -491,8 +460,7 @@ public class AccountPanel extends JPanel implements ActionListener {
 			if (timeToLife(id)) {
 				JOptionPane.showMessageDialog(null, "定期存款转成活期成功");
 			} else {
-				JOptionPane.showMessageDialog(null, "定期存款转成活期失败", null,
-						JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null, "定期存款转成活期失败", null, JOptionPane.ERROR_MESSAGE);
 			}
 			return new String(label);
 		}
@@ -519,9 +487,8 @@ public class AccountPanel extends JPanel implements ActionListener {
 			setOpaque(true);
 		}
 
-		public Component getTableCellRendererComponent(JTable table,
-				Object value, boolean isSelected, boolean hasFocus, int row,
-				int column) {
+		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
+				int row, int column) {
 			if (isSelected) {
 				setForeground(table.getSelectionForeground());
 				setBackground(table.getSelectionBackground());

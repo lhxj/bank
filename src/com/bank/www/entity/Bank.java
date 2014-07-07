@@ -2,9 +2,9 @@ package com.bank.www.entity;
 
 public class Bank {
 	private Integer id;
-	private String bankName;
-	private Long samebankCost;
-	private Long interbankCost;
+	private String bankName;//银行名称
+	private Long samebankCost;//同行转账费用
+	private Long interbankCost;//跨行转账费用
 	private Float rate;// 活期利率
 
 	public Bank() {
