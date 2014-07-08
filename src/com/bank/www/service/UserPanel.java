@@ -12,6 +12,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
@@ -32,7 +33,8 @@ public class UserPanel extends JPanel implements ActionListener {
 	private JPanel updatePanel;
 	private JPanel deletePanel;
 	private JButton regSubmit, resetSubmit, updSubmit, delSubmit, back;
-	private JTextField userName, no;
+	private JTextField userName, no, identityCard, phone;
+	private JPasswordField password;
 	private UserDao udao = new UserDao();
 
 	public UserPanel() {
@@ -100,17 +102,7 @@ public class UserPanel extends JPanel implements ActionListener {
 			}
 		}
 		if (e.getSource() == regSubmit) {
-			String user = userName.getText();
-			String cardno = no.getText();
-			if ("".equals(user) || "".equals(cardno)) {
-				JOptionPane.showMessageDialog(null, "请输入用户名称或者卡号", null, JOptionPane.INFORMATION_MESSAGE);
-				return;
-			}
-			if (udao.create(user, cardno)) {
-				JOptionPane.showMessageDialog(null, "开户成功");
-			} else {
-				JOptionPane.showMessageDialog(null, "开户失败", null, JOptionPane.ERROR_MESSAGE);
-			}
+			registerUser();
 		}
 		if (e.getSource() == updSubmit) {
 			String cardno = no.getText();
@@ -154,21 +146,53 @@ public class UserPanel extends JPanel implements ActionListener {
 		}
 	}
 
+	private void registerUser() {
+		String user = userName.getText();
+		String cardno = no.getText();
+		String pass = String.valueOf(password.getPassword());
+		String idcard = identityCard.getText();
+		String p = phone.getText();
+		if ("".equals(user) || "".equals(cardno) || "".equals(pass) || "".equals(idcard) || "".equals(p)) {
+			JOptionPane.showMessageDialog(null, "请输入正确的开户用户信息", null, JOptionPane.INFORMATION_MESSAGE);
+			return;
+		}
+		if (udao.create(user, cardno, pass, idcard, p)) {
+			JOptionPane.showMessageDialog(null, "开户成功");
+		} else {
+			JOptionPane.showMessageDialog(null, "开户失败", null, JOptionPane.ERROR_MESSAGE);
+		}
+	}
+
 	private JPanel regPanel() {
 		JPanel panel = new JPanel();
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
 		JPanel panel1 = new JPanel();
-		panel1.add(new Label("请输入需要开户的账户名称"));
+		panel1.add(new Label("开户的用户名"));
 		userName = new JTextField(16);
 		panel1.add(userName);
 		panel.add(panel1);
 
 		JPanel panel2 = new JPanel();
-		panel2.add(new Label("请输入需要开户的账户卡号"));
+		panel2.add(new Label("开户的账户卡号"));
 		no = new JTextField(16);
 		panel2.add(no);
 		panel.add(panel2);
+
+		JPanel panel6 = new JPanel();
+		panel6.add(new Label("开户的密码"));
+		password = new JPasswordField(16);
+		panel6.add(password);
+		panel.add(panel6);
+
+		JPanel panel4 = new JPanel();
+		panel4.add(new Label("身份证"));
+		identityCard = new JTextField(12);
+		panel4.add(identityCard);
+		panel4.add(new Label("手机号"));
+		phone = new JTextField(8);
+		panel4.add(phone);
+		panel.add(panel4);
 
 		JPanel panel3 = new JPanel();
 		regSubmit = new JButton("开户");

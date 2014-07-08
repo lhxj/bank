@@ -45,48 +45,43 @@ public class AccountPanel extends JPanel implements ActionListener {
 	private static final long serialVersionUID = -1935013564367236838L;
 
 	private JFrame frame;
-	private JTextField no, userName, userAmount, drawAmount, depositAmount;
-	private JButton find, drawMoney, deposit, back, timeDeposit;
+	private JTextField userName, userAmount, drawAmount, depositAmount;
+	private JButton drawMoney, deposit, back, timeDeposit;
 	private JScrollPane scrollPane;
 	private List<UserAccountTimeDeposit> depositList = null;
 	private UserAccounts ua;
 	private Integer year = 1;
 
-	public AccountPanel() {
+	public AccountPanel(JFrame frame) {
+		this.frame = frame;
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		Border title = BorderFactory.createTitledBorder("账户存取款操作窗口");
 		this.setBorder(title);
 
 		this.add(initPanel());
-	}
 
-	public AccountPanel(JFrame frame) {
-		this();
-		this.frame = frame;
+		find();
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-		if (e.getSource() == find) {
-			find();
-		}
 		if (e.getSource() == drawMoney) {
 			drawMoney();
 			UserDao udao = new UserDao();
-			ua = udao.findUserByNO(no.getText());
+			ua = udao.findUserByNO(((MainJFrame) this.frame).getNo());
 			userAmount.setText(String.valueOf(ua.getAccountAmout() / 100.0));
 		}
 		if (e.getSource() == deposit) {
 			depositMoney();
 			UserDao udao = new UserDao();
-			ua = udao.findUserByNO(no.getText());
+			ua = udao.findUserByNO(((MainJFrame) this.frame).getNo());
 			userAmount.setText(String.valueOf(ua.getAccountAmout() / 100.0));
 		}
 		if (e.getSource() == timeDeposit) {
 			UserDao udao = new UserDao();
 			timeDeposit();
-			depositList = udao.searchDeposit(no.getText());
+			depositList = udao.searchDeposit(((MainJFrame) this.frame).getNo());
 			JTable table = getTable(depositList);
 			scrollPane.setViewportView(table);
 			scrollPane.repaint();
@@ -102,16 +97,6 @@ public class AccountPanel extends JPanel implements ActionListener {
 	private JPanel initPanel() {
 		JPanel panel = new JPanel();
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-
-		JPanel panel1 = new JPanel();
-		panel1.add(new Label("请输入账户卡号"));
-		no = new JTextField(16);
-		no.addActionListener(this);
-		find = new JButton("账户查询");
-		find.addActionListener(this);
-		panel1.add(no);
-		panel1.add(find);
-		panel.add(panel1);
 
 		JPanel panel2 = new JPanel();
 		panel2.setLayout(new FlowLayout(FlowLayout.LEFT));
@@ -135,7 +120,7 @@ public class AccountPanel extends JPanel implements ActionListener {
 		panel4.setLayout(new BoxLayout(panel4, BoxLayout.Y_AXIS));
 		panel4.add(new Label("账户定期余额"));
 		scrollPane = new JScrollPane(getTable(depositList));
-		scrollPane.setPreferredSize(new Dimension(360, 60));
+		scrollPane.setPreferredSize(new Dimension(360, 90));
 		panel4.add(scrollPane);
 		panel.add(panel4);
 
@@ -159,15 +144,7 @@ public class AccountPanel extends JPanel implements ActionListener {
 
 	private void find() {
 		UserDao udao = new UserDao();
-		if ("".equals(no.getText())) {
-			JOptionPane.showMessageDialog(null, "请输入需要查询帐户信息的帐户卡号", null, JOptionPane.INFORMATION_MESSAGE);
-			return;
-		}
-		ua = udao.findUserByNO(no.getText());
-		if (ua == null) {
-			JOptionPane.showMessageDialog(null, "不存在卡号为：" + no.getText() + "的账户", null, JOptionPane.ERROR_MESSAGE);
-			return;
-		}
+		ua = udao.findUserByNO(((MainJFrame) this.frame).getNo());
 		long current = System.currentTimeMillis();
 		long time = ua.getAmountTime().getTime();
 		int day = (int) ((current - time) / (24 * 60 * 60 * 1000));
@@ -177,12 +154,12 @@ public class AccountPanel extends JPanel implements ActionListener {
 			Long interest = (long) ((ua.getAccountAmout() / 100.0) * list.get(0).getRate() * day / 360 * 100);
 			Timestamp interestTime = new Timestamp(time + day * 24 * 60 * 60 * 1000);
 			if (udao.interest(ua.getId(), ua.getAccountAmout(), interest, interestTime)) {
-				ua = udao.findUserByNO(no.getText());
+				ua = udao.findUserByNO(((MainJFrame) this.frame).getNo());
 			}
 		}
 		userName.setText(ua.getUserName());
 		userAmount.setText(String.valueOf(ua.getAccountAmout() / 100.0));
-		depositList = udao.searchDeposit(no.getText());
+		depositList = udao.searchDeposit(((MainJFrame) this.frame).getNo());
 		BankDao bdao = new BankDao();
 		for (int i = 0; i < depositList.size(); i++) {
 			UserAccountTimeDeposit timeDeposit = depositList.get(i);

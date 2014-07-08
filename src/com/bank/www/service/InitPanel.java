@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -17,42 +18,55 @@ public class InitPanel extends JPanel implements ActionListener {
 	 */
 	private static final long serialVersionUID = -5717870149600774536L;
 
-	private JButton userButton, transferButton, bankButton, accountButton, statisticsButton, depositButton;
+	private JButton userButton, transferButton, bankButton, accountButton, statisticsButton, depositButton, back;
 	private JFrame jFrame;
 
-	public InitPanel() {
-		this.setLayout(new GridLayout(3, 2));
+	public InitPanel(JFrame jFrame) {
+		this.jFrame = jFrame;
+		Integer type = ((MainJFrame) this.jFrame).getType();
+
+		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		Border title = BorderFactory.createTitledBorder("系统主窗口");
 		this.setBorder(title);
 
-		userButton = new JButton("用户账户管理");
-		this.add(userButton);
-		userButton.addActionListener(this);
+		JPanel panel = new JPanel();
+		panel.setLayout(new GridLayout(3, 1));
+		if (type == 1) {
+			userButton = new JButton("用户账户管理");
+			panel.add(userButton);
+			userButton.addActionListener(this);
+		}
 
-		transferButton = new JButton("用户转账管理");
-		this.add(transferButton);
-		transferButton.addActionListener(this);
+		if (type == 0) {
+			transferButton = new JButton("用户转账管理");
+			panel.add(transferButton);
+			transferButton.addActionListener(this);
 
-		bankButton = new JButton("银行利率管理");
-		this.add(bankButton);
-		bankButton.addActionListener(this);
+			accountButton = new JButton("账户存取款管理");
+			panel.add(accountButton);
+			accountButton.addActionListener(this);
+		}
 
-		accountButton = new JButton("账户存取款管理");
-		this.add(accountButton);
-		accountButton.addActionListener(this);
+		if (type == 2) {
+			bankButton = new JButton("银行利率管理");
+			panel.add(bankButton);
+			bankButton.addActionListener(this);
 
-		statisticsButton = new JButton("按期查询记录管理");
-		this.add(statisticsButton);
-		statisticsButton.addActionListener(this);
+			statisticsButton = new JButton("按期查询记录管理");
+			panel.add(statisticsButton);
+			statisticsButton.addActionListener(this);
 
-		depositButton = new JButton("定期存款统计管理");
-		this.add(depositButton);
-		depositButton.addActionListener(this);
-	}
+			depositButton = new JButton("定期存款统计管理");
+			panel.add(depositButton);
+			depositButton.addActionListener(this);
+		}
+		this.add(panel);
 
-	public InitPanel(JFrame jFrame) {
-		this();
-		this.jFrame = jFrame;
+		JPanel panel2 = new JPanel();
+		back = new JButton("退出登录");
+		back.addActionListener(this);
+		panel2.add(back);
+		this.add(panel2);
 	}
 
 	@Override
@@ -91,6 +105,14 @@ public class InitPanel extends JPanel implements ActionListener {
 		if (e.getSource() == depositButton) {
 			this.jFrame.remove(this);
 			this.jFrame.getContentPane().add(new depositPanel(this.jFrame));
+			this.jFrame.setVisible(true);
+			this.jFrame.repaint();
+		}
+		if (e.getSource() == back) {
+			((MainJFrame) this.jFrame).setNo(null);
+			((MainJFrame) this.jFrame).setType(null);
+			this.jFrame.remove(this);
+			this.jFrame.getContentPane().add(new LoginPanel(this.jFrame));
 			this.jFrame.setVisible(true);
 			this.jFrame.repaint();
 		}

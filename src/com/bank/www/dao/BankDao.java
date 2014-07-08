@@ -183,7 +183,7 @@ public class BankDao {
 	/**
 	 * 定期存款不到期转为活期存款
 	 * 
-	 * @param userId
+	 * @param accountId
 	 *            账户ID
 	 * @param originAmount
 	 *            账户原始金额
@@ -197,14 +197,14 @@ public class BankDao {
 	 *            定期存款原始金额
 	 * @return
 	 */
-	public boolean timeToLife(Integer userId, Long originAmount, Long timeOriginAmount, Long amount, Integer timeId,
+	public boolean timeToLife(Integer accountId, Long originAmount, Long timeOriginAmount, Long amount, Integer timeId,
 			Long timeOriAmt) {
-		String sql1 = "update user_account set amount = " + (originAmount + amount) + " where id = " + userId;
-		String sql2 = "insert account_log(user_id, deposit_amount, time, type, remark) values(" + userId + "," + amount
+		String sql1 = "update user_account set amount = " + (originAmount + amount) + " where id = " + accountId;
+		String sql2 = "insert account_log(account_id, deposit_amount, time, type, remark) values(" + accountId + "," + amount
 				+ ",'" + new Timestamp(System.currentTimeMillis()).toString().substring(0, 19) + "', 2, '帐户原金额："
 				+ originAmount + "，定期金额为：" + timeOriginAmount + "转为活期')";
 		String sql3 = "delete from account_deposit where id = " + timeId;
-		String sql4 = "insert account_log(user_id, draw_amount, time, type, remark) values(" + userId + "," + timeOriAmt
+		String sql4 = "insert account_log(account_id, draw_amount, time, type, remark) values(" + accountId + "," + timeOriAmt
 				+ ",'" + new Timestamp(System.currentTimeMillis()).toString().substring(0, 19) + "', 1, '帐户原金额："
 				+ timeOriAmt + "，定期转为活期取消了该定期的存款')";
 		boolean flag = false;
@@ -245,7 +245,7 @@ public class BankDao {
 	/**
 	 * 定期到期后转为活期存款操作
 	 * 
-	 * @param userId
+	 * @param accountId
 	 *            账户ID
 	 * @param originAmt
 	 *            账户活期原始金额
@@ -259,9 +259,9 @@ public class BankDao {
 	 *            定期ID
 	 * @return
 	 */
-	public boolean timeOver(Integer userId, Long originAmt, Long timeOriginAmt, Long amount, Timestamp time, Integer timeId) {
-		String sql1 = "update user_account set amount = " + (originAmt + amount) + " where id = " + userId;
-		String sql2 = "insert account_log(user_id, deposit_amount, time, type, remark) values(" + userId + "," + amount
+	public boolean timeOver(Integer accountId, Long originAmt, Long timeOriginAmt, Long amount, Timestamp time, Integer timeId) {
+		String sql1 = "update user_account set amount = " + (originAmt + amount) + " where id = " + accountId;
+		String sql2 = "insert account_log(account_id, deposit_amount, time, type, remark) values(" + accountId + "," + amount
 				+ ",'" + new Timestamp(System.currentTimeMillis()).toString().substring(0, 19) + "', 2, '帐户原金额：" + originAmt
 				+ "，定期金额为：" + timeOriginAmt + "到期进行到期的利息计算，并将该定期时间改为结束时间，后续将对该定期超期部分做转活期操作')";
 		String sql3 = "update account_deposit set amount_time = '" + time.toString().substring(0, 19) + "' where id = "
@@ -308,8 +308,8 @@ public class BankDao {
 	 */
 	public List<StatisticsBean> statistics(Timestamp begin, Timestamp end) {
 		List<StatisticsBean> list = new ArrayList<StatisticsBean>();
-		String sql = "select ua.user_name, ua.no, al.draw_amount, al.deposit_amount, al.type, al.time ";
-		sql += "from account_log al left join user_account ua on ua.id = al.user_id where ";
+		String sql = "select u.user_name, u.no, al.draw_amount, al.deposit_amount, al.type, al.time ";
+		sql += "from account_log al left join user_account ua on ua.id = al.account_id left join user u on ua.user_id = u.id where ";
 		sql += "al.time >= '" + begin.toString().substring(0, 19) + "' and al.time <= '" + end.toString().substring(0, 19);
 		sql += "' order by al.time";
 		Connection conn = DBHelper.getConnection();

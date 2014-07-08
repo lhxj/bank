@@ -52,7 +52,7 @@ public class depositPanel extends JPanel implements ActionListener {
 		panel1.setLayout(new BoxLayout(panel1, BoxLayout.Y_AXIS));
 		panel1.add(new Label("定期存款超过20W金额的用户信息统计查询"));
 		searchPanel = new JScrollPane(getTable(userList));
-		searchPanel.setPreferredSize(new Dimension(360, 150));
+		searchPanel.setPreferredSize(new Dimension(370, 155));
 		panel1.add(searchPanel);
 		panel.add(panel1);
 

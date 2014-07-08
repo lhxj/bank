@@ -30,12 +30,14 @@ public class TransferPanel extends JPanel implements ActionListener {
 	private static final long serialVersionUID = 3685959053460290202L;
 
 	private JFrame frame;
-	private JTextField outno, money, inno, cost;
+	private JTextField camount, money, inno, cost;
 	private JRadioButton sameTransfer, interTransfer;
 	private JButton back, submit, reset;
 	private Bank bank;
+	private UserAccounts uaccount;
 
-	public TransferPanel() {
+	public TransferPanel(JFrame frame) {
+		this.frame = frame;
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		Border title = BorderFactory.createTitledBorder("用户转账操作窗口");
 		this.setBorder(title);
@@ -43,11 +45,7 @@ public class TransferPanel extends JPanel implements ActionListener {
 		initData();
 
 		this.add(basePanel());
-	}
 
-	public TransferPanel(JFrame frame) {
-		this();
-		this.frame = frame;
 	}
 
 	private JPanel basePanel() {
@@ -55,9 +53,11 @@ public class TransferPanel extends JPanel implements ActionListener {
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
 		JPanel panel1 = new JPanel();
-		panel1.add(new Label("请输入需要转出的账户卡号"));
-		outno = new JTextField(16);
-		panel1.add(outno);
+		panel1.add(new Label("您当前的账户金额为"));
+		camount = new JTextField(8);
+		camount.setEnabled(false);
+		camount.setText(String.valueOf(uaccount.getAccountAmout() / 100.0));
+		panel1.add(camount);
 		panel.add(panel1);
 
 		JPanel panel2 = new JPanel();
@@ -114,6 +114,8 @@ public class TransferPanel extends JPanel implements ActionListener {
 		if (list != null && list.size() > 0) {
 			bank = list.get(0);
 		}
+		UserDao udao = new UserDao();
+		uaccount = udao.findUserByNO(((MainJFrame) this.frame).getNo());
 	}
 
 	@Override
@@ -126,11 +128,10 @@ public class TransferPanel extends JPanel implements ActionListener {
 			cost.setText(bank.getInterbankCost().toString());
 		}
 		if (e.getSource() == submit) {
-			String outcardno = outno.getText();
 			String incardno = inno.getText();
 			String amount = money.getText();
-			if ("".equals(outcardno) || "".equals(incardno) || "".equals(amount)) {
-				JOptionPane.showMessageDialog(null, "请输入转入，转出的卡号或所需要转账的金额", null, JOptionPane.INFORMATION_MESSAGE);
+			if ("".equals(incardno) || "".equals(amount)) {
+				JOptionPane.showMessageDialog(null, "请输入转入的卡号或所需要转账的金额", null, JOptionPane.INFORMATION_MESSAGE);
 				return;
 			}
 			Pattern pattern = Pattern.compile("^(([1-9]{1}\\d*)|([0]{1}))(\\.(\\d){1,2})?$");
@@ -139,12 +140,7 @@ public class TransferPanel extends JPanel implements ActionListener {
 				return;
 			}
 			UserDao ud = new UserDao();
-			UserAccounts outu = ud.findUserByNO(outcardno);
-			if (outu == null) {
-				JOptionPane.showMessageDialog(null, "不存在卡号为：" + outcardno + "的账户", null, JOptionPane.ERROR_MESSAGE);
-				return;
-			}
-			if (Float.parseFloat(amount) * 100 > outu.getAccountAmout()) {
+			if (Float.parseFloat(amount) * 100 > uaccount.getAccountAmout()) {
 				JOptionPane.showMessageDialog(null, "转账金额超出用户账户余额", null, JOptionPane.WARNING_MESSAGE);
 				return;
 			}
@@ -156,8 +152,11 @@ public class TransferPanel extends JPanel implements ActionListener {
 			Long bankamount = sameTransfer.isSelected() ? bank.getSamebankCost() * 100 : bank.getInterbankCost() * 100;
 			Long outamount = (long) (Float.parseFloat(amount) * 100.0 + bankamount);
 			Long inamount = (long) (Float.parseFloat(amount) * 100.0);
-			if (ud.exchange(outu.getId(), outu.getAccountAmout(), outamount, inu.getId(), inu.getAccountAmout(), inamount)) {
+			if (ud.exchange(uaccount.getId(), uaccount.getAccountAmout(), outamount, inu.getId(), inu.getAccountAmout(),
+					inamount)) {
 				JOptionPane.showMessageDialog(null, "转账成功");
+				uaccount = ud.findUserByNO(((MainJFrame) this.frame).getNo());
+				camount.setText(String.valueOf(uaccount.getAccountAmout() / 100.0));
 				money.setText("");
 				inno.setText("");
 			} else {
@@ -165,7 +164,6 @@ public class TransferPanel extends JPanel implements ActionListener {
 			}
 		}
 		if (e.getSource() == reset) {
-			outno.setText("");
 			money.setText("");
 			inno.setText("");
 			sameTransfer.setSelected(true);
